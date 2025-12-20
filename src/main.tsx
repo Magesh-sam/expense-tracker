@@ -9,11 +9,12 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Router>
 
-      <Sidebar>
-        <Routes>
-          <Route path='/' element={<App />} />
-        </  Routes>
-      </Sidebar>
+      <Routes>
+        <Route element={<Sidebar />}>
+          <Route index element={<App />} />
+          <Route path="dashboard" element={<App />} />
+        </Route>
+      </  Routes>
     </Router>
   </StrictMode >,
 )

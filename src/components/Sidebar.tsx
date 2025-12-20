@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react'
-function Sidebar({ children }: { children: ReactNode }) {
+import { Outlet } from 'react-router'
+function Sidebar() {
     return (
         <div className=' h-screen flex  w-screen '>
             <aside className='border border-black h-full px-3 pt-3  text-white bg-slate-800 '>
@@ -13,7 +13,7 @@ function Sidebar({ children }: { children: ReactNode }) {
                 </nav>
             </aside>
             <main className='flex justify-center  w-screen bg-gray-200'>
-                {children}
+               <Outlet/>
             </main>
         </div>
     )

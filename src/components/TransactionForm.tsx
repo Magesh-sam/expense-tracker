@@ -32,7 +32,7 @@ const TransactionForm = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="border rounded-md border-black my-3 p-3">
+        <form onSubmit={handleSubmit} className=" rounded-md shadow-md my-3 p-3 bg-white">
             <div className="flex flex-col gap-3">
 
                 <p className="font-semibold">Transaction Type</p>
