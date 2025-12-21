@@ -23,11 +23,22 @@ const Insights = () => {
     )
 }
 
-const TransactionsList = () =>{
-    return(
-        <div>
-                           <h3 className="text-xl font-semibold mb-3">Recent Transaction</h3>
+const TransactionsList = () => {
+    return (
+        <div className="w-full flex justify-evenly mt-5 gap-8 px-8">
 
+            <section className="bg-white w-full rounded-md shadow-md">
+                <h3 className="text-xl pl-3 pt-3 font-semibold mb-3">Recent Transaction</h3>
+                <div className="w-full min-h-96">
+
+                </div>
+            </section>
+            <section className="bg-white w-full rounded-md shadow-md">
+                <h3 className="text-xl pl-3 pt-3 font-semibold mb-3">Spending Breakdown</h3>
+                <div className="w-full min-h-96">
+                    </div>
+
+            </section>
         </div>
     )
 }
@@ -40,9 +51,9 @@ const Dashboard = () => {
             </div>
             <Insights />
             <div>
-                <TransactionsList/>
+                <TransactionsList />
                 <div>
-                    
+
                 </div>
             </div>
         </div>
