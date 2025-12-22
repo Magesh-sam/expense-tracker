@@ -1,21 +1,26 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
+import type { Transaction } from "../util/types";
+import { useTransactions } from "../context/TransactionContext";
+import { useNavigate } from "react-router";
 
 
-type Transaction = {
-    type: "income" | "expense",
-    amount: number,
-    category: string,
-    description?: string,
- 
-}
+
 
 
 const TransactionForm = () => {
-    const [transaction, setTransaction] = useState<Transaction>({ type: "expense", amount: 1, category: "" });
+    const nav = useNavigate();
+    const { addTransaction } = useTransactions();
+    const [transaction, setTransaction] = useState<Omit<Transaction, "id">>({ type: "expense", amount: 1, category: "" });
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        console.log({ transaction })
+        const newTransaction = {
+            ...transaction,
+            id: crypto.randomUUID()
+        }
+        addTransaction(newTransaction);
+        nav("/");
+
 
     }
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {

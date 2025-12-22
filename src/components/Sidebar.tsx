@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router'
+import { TransactionProvider } from '../context/TransactionContext'
 function Sidebar() {
     return (
         <div className=' h-screen flex  w-screen '>
@@ -15,7 +16,10 @@ function Sidebar() {
                 </nav>
             </aside>
             <main className='flex justify-center  w-screen bg-gray-200'>
-               <Outlet/>
+                <TransactionProvider>
+
+                    <Outlet />
+                </TransactionProvider>
             </main>
         </div>
     )

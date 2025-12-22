@@ -1,3 +1,6 @@
+import { useNavigate } from "react-router";
+import { useTransactions } from "../context/TransactionContext"
+
 const Insights = () => {
     return (
         <div className="flex justify-evenly items-center px-5 pt-5">
@@ -24,13 +27,25 @@ const Insights = () => {
 }
 
 const TransactionsList = () => {
+    const {transactions} =useTransactions();
     return (
         <div className="w-full flex justify-evenly mt-5 gap-8 px-8">
 
             <section className="bg-white w-full rounded-md shadow-md">
                 <h3 className="text-xl pl-3 pt-3 font-semibold mb-3">Recent Transaction</h3>
-                <div className="w-full min-h-96">
+                <div className="w-full min-h-96 text-gray-600">
+                    <ul className="px-3">
 
+                    {
+                        transactions.map((transaction)=>(
+                            <li className="mb-3" key={transaction.id} >
+
+                                <p className="text-xl border-b border-gray-400 pb-3">{transaction.category} {"->"} {transaction.type=="income" ? "+" : "-"} ${transaction.amount} </p>
+                                
+                        </li>
+                        ))
+                    }
+                    </ul>
                 </div>
             </section>
             <section className="bg-white w-full rounded-md shadow-md">
@@ -43,11 +58,12 @@ const TransactionsList = () => {
     )
 }
 const Dashboard = () => {
+    const nav = useNavigate();
     return (
         <div className="w-full">
             <div className="flex justify-between items-center my-3 px-5">
                 <h2 className="text-3xl font-bold">Dashboard</h2>
-                <button className="px-3 py-2 bg-teal-600 hover:bg-teal-700 hover:cursor-pointer rounded-sm text-white"> + Add Transaction</button>
+                <button onClick={()=>nav("/dashboard")} className="px-3 py-2 bg-teal-600 hover:bg-teal-700 hover:cursor-pointer rounded-sm text-white"> + Add Transaction</button>
             </div>
             <Insights />
             <div>
