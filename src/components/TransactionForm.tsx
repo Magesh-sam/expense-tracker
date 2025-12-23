@@ -1,15 +1,13 @@
 import { useState } from "react";
-import type { FormEvent } from "react";
+import type { FormEvent, RefObject } from "react";
 import type { Transaction } from "../util/types";
 import { useTransactions } from "../context/TransactionContext";
-import { useNavigate } from "react-router";
 
 
 
 
 
-const TransactionForm = () => {
-    const nav = useNavigate();
+const TransactionForm = ({ref}:{ref:RefObject<HTMLDialogElement | null>}) => {
     const { addTransaction } = useTransactions();
     const [transaction, setTransaction] = useState<Omit<Transaction, "id">>({ type: "expense", amount: 1, category: "" });
     const handleSubmit = (e: FormEvent) => {
@@ -19,7 +17,7 @@ const TransactionForm = () => {
             id: crypto.randomUUID()
         }
         addTransaction(newTransaction);
-        nav("/");
+         ref?.current?.close();
 
 
     }
@@ -34,10 +32,11 @@ const TransactionForm = () => {
 
     const handleCancel = () => {
         setTransaction({ type: "expense", amount: 1, category: "" });
+        ref?.current?.close();
     }
 
     return (
-        <form onSubmit={handleSubmit} className=" rounded-md shadow-md my-3 p-3 bg-white">
+        <form onSubmit={handleSubmit} className=" my-3 p-3 bg-white">
             <div className="flex flex-col gap-3">
 
                 <p className="font-semibold">Transaction Type</p>
