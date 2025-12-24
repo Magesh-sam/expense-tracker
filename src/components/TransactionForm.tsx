@@ -7,9 +7,9 @@ import { useTransactions } from "../context/TransactionContext";
 
 
 
-const TransactionForm = ({ref}:{ref:RefObject<HTMLDialogElement | null>}) => {
+const TransactionForm = ({ ref }: { ref: RefObject<HTMLDialogElement | null> }) => {
     const { addTransaction } = useTransactions();
-    const [transaction, setTransaction] = useState<Omit<Transaction, "id">>({ type: "expense", amount: 1, category: "" });
+    const [transaction, setTransaction] = useState<Omit<Transaction, "id">>({ type: "expense", amount: 1, category: "", date: new Date() });
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         const newTransaction = {
@@ -17,21 +17,26 @@ const TransactionForm = ({ref}:{ref:RefObject<HTMLDialogElement | null>}) => {
             id: crypto.randomUUID()
         }
         addTransaction(newTransaction);
-         ref?.current?.close();
+        ref?.current?.close();
 
 
     }
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    ) => {
         const { name, value } = e.target;
 
         setTransaction(prev => ({
             ...prev,
-            [name]: value
+            [name]:
+                name === "amount" ? Number(value) :
+                    name === "date" ? new Date(value) :
+                        value
         }));
     };
 
     const handleCancel = () => {
-        setTransaction({ type: "expense", amount: 1, category: "" });
+        setTransaction({ type: "expense", amount: 1, category: "", date: new Date() });
         ref?.current?.close();
     }
 
@@ -40,21 +45,30 @@ const TransactionForm = ({ref}:{ref:RefObject<HTMLDialogElement | null>}) => {
             <div className="flex flex-col gap-3">
 
                 <p className="font-semibold">Transaction Type</p>
-                <label htmlFor="income" className="flex items-center gap-2" >
-                    <input type="radio" name="type" id="income" value="income" onChange={handleChange} checked={transaction.type === "income"} />
-                    <span>Income</span>
-                </label>
+                <div className="flex justify-evenly flex-wrap">
 
-                <label htmlFor="expense" className="flex items-center gap-2">
-                    <input type="radio" name="type" id="expense" value="expense" onChange={handleChange} checked={transaction.type === "expense"} />
-                    <span>Expense</span>
-                </label>
+                    <label htmlFor="income" className="flex items-center gap-2" >
+                        <input type="radio" name="type" id="income" value="income" onChange={handleChange} checked={transaction.type === "income"} />
+                        <span>Income</span>
+                    </label>
+
+                    <label htmlFor="expense" className="flex items-center gap-2">
+                        <input type="radio" name="type" id="expense" value="expense" onChange={handleChange} checked={transaction.type === "expense"} />
+                        <span>Expense</span>
+                    </label>
+                </div>
             </div>
-            <label className="flex items-center gap-2 mt-2" htmlFor="amount"><span className="font-semibold">Amount:</span>
+            <label className="flex items-center gap-5 justify-between flex-wrap mt-2" htmlFor="amount"><span className="font-semibold">Amount:</span>
 
-                <input className="border border-blue-500 rounded-sm" type="number" min={1} value={transaction.amount} onChange={handleChange} name="amount" id="amount" />
+                <input className=" p-2 border border-blue-500 rounded-sm" type="number" min={1} value={transaction.amount} onChange={handleChange} name="amount" id="amount" />
             </label>
-            <select name="category" id="category" className="p-2 my-2" value={transaction.category} onChange={handleChange}  >
+            <label className="flex items-center gap-5 justify-between mt-2" htmlFor="amount"><span className="font-semibold">Date:</span>
+
+                <input className=" p-2 border border-blue-500 rounded-sm" type="date" value={new Date().toISOString().split("T")[0]}
+                    onChange={handleChange} name="date" id="date" />
+            </label>
+            <select name="category" id="category" className="border border-blue-500 rounded-sm p-2 my-2 w-full "
+                value={transaction.category} onChange={handleChange}  >
                 <option value="">Category</option>
                 <option value="grocery">grocery</option>
                 <option value="medical">medical</option>
