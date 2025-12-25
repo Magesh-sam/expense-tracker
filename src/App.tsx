@@ -6,7 +6,7 @@ const App = () => {
     <h1 className="text-3xl text-center font-bold" >Expense Tracker</h1>
     <div className= "min-w-sm max-w-xl  mx-auto" >
 
-    <TransactionForm/>
+    
     </div>
    </main>
   )

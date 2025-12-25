@@ -3,24 +3,29 @@ import { useRef } from "react";
 import TransactionModal from "../components/TransactionModal";
 
 const Insights = () => {
+    const { transactions } = useTransactions();
+    const income = transactions?.filter((t)=>t.type==="income")?.reduce((prev,curr)=>prev + curr.amount,0);
+    const expense = transactions?.filter((t)=>t.type==="expense")?.reduce((prev,curr)=>prev + curr.amount,0);
+    const balance = income - expense;
+
     return (
         <div className="flex justify-evenly items-center px-5 pt-5">
             <section className="w-sm bg-white rounded-xl px-3 py-2 shadow-md">
                 <h3 className="text-xl font-semibold mb-3">Total Balace</h3>
                 <p className=" font-bold mb-2">
-                    <data value="12450.00">$12,450.00</data>
+                    <data value="12450.00">$ {balance}</data>
                 </p>
             </section>
             <section className="w-sm bg-white rounded-xl px-3 py-2 shadow-md">
                 <h3 className="text-xl font-semibold mb-3">Income</h3>
                 <p className="text-emerald-500 font-bold mb-2">
-                    <data value="12450.00">$12,450.00</data>
+                    <data value="12450.00">$ {income}</data>
                 </p>
             </section>
             <section className="w-sm bg-white rounded-xl px-3 py-2 shadow-md">
                 <h3 className="text-xl font-semibold mb-3">Expense</h3>
                 <p className="text-rose-700 font-bold mb-2">
-                    <data value="12450.00">$12,450.00</data>
+                    <data value="12450.00">${expense}</data>
                 </p>
             </section>
         </div>
@@ -29,6 +34,13 @@ const Insights = () => {
 
 const TransactionsList = () => {
     const { transactions } = useTransactions();
+    if (transactions.length == 0) {
+        return (
+            <div className="w-full flex justify-evenly mt-5 gap-8 px-8">
+                <p className="font-semibold text-xl"> No Transaction</p>
+            </div>
+        )
+    }
     return (
         <div className="w-full flex justify-evenly mt-5 gap-8 px-8">
 
@@ -66,8 +78,8 @@ const Dashboard = () => {
             <div className="flex justify-between items-center my-3 px-5">
                 <h2 className="text-3xl font-bold">Dashboard</h2>
                 <button onClick={() => modalRef?.current?.showModal()} className="px-3 py-2 bg-teal-600 hover:bg-teal-700 hover:cursor-pointer rounded-sm text-white"> + Add Transaction</button>
-            
-                    <TransactionModal ref={modalRef} />
+
+                <TransactionModal ref={modalRef} />
             </div>
             <Insights />
             <div>

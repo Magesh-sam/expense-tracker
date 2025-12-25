@@ -9,7 +9,7 @@ import { useTransactions } from "../context/TransactionContext";
 
 const TransactionForm = ({ ref }: { ref: RefObject<HTMLDialogElement | null> }) => {
     const { addTransaction } = useTransactions();
-    const [transaction, setTransaction] = useState<Omit<Transaction, "id">>({ type: "expense", amount: 1, category: "", date: new Date() });
+    const [transaction, setTransaction] = useState<Omit<Transaction, "id">>({ type: "expense", amount: 1, category: "", date: new Date(), description: "" });
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         const newTransaction = {
@@ -17,6 +17,7 @@ const TransactionForm = ({ ref }: { ref: RefObject<HTMLDialogElement | null> }) 
             id: crypto.randomUUID()
         }
         addTransaction(newTransaction);
+        handleCancel();
         ref?.current?.close();
 
 
@@ -36,7 +37,7 @@ const TransactionForm = ({ ref }: { ref: RefObject<HTMLDialogElement | null> }) 
     };
 
     const handleCancel = () => {
-        setTransaction({ type: "expense", amount: 1, category: "", date: new Date() });
+        setTransaction({ type: "expense", amount: 1, category: "", date: new Date(), description: "" });
         ref?.current?.close();
     }
 
@@ -67,7 +68,7 @@ const TransactionForm = ({ ref }: { ref: RefObject<HTMLDialogElement | null> }) 
                 <input className=" p-2 border border-blue-500 rounded-sm" type="date" value={new Date().toISOString().split("T")[0]}
                     onChange={handleChange} name="date" id="date" />
             </label>
-            <select name="category" id="category" className="border border-blue-500 rounded-sm p-2 my-2 w-full "
+            <select required name="category" id="category" className="border border-blue-500 rounded-sm p-2 my-2 w-full "
                 value={transaction.category} onChange={handleChange}  >
                 <option value="">Category</option>
                 <option value="grocery">grocery</option>
