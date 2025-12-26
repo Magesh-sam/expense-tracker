@@ -24,13 +24,13 @@ function TransactionList() {
             {
                 transactions.map((transaction: Transaction, index: number) => (
                     <li
-                        className={`grid grid-cols-5 px-3 py-2 ${index !== transactions.length - 1 ? "border-b border-blue-400" : ""
+                        className={`grid grid-cols-5 px-3 py-2 font-medium ${index !== transactions.length - 1 ? "border-b border-blue-400" : ""
                             }`}
                     >
                         <p className="text-left">{transaction.date.toISOString().split("T")[0]}</p>
                         <p className="text-left">{transaction.category}</p>
                         <p className="text-left">{transaction.description}</p>
-                        <p className="text-right">{transaction.amount}</p>
+                        <p className={`text-right ${transaction.type === "income" ? "text-green-600" : "text-red-800"} `}>{transaction.type === "income" ? "+" : "-"}{transaction.amount}</p>
                         <div className='text-right flex gap-2 items-center justify-end'>
                             <button>Edit</button>
                             <button>Delete</button>
