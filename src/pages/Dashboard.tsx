@@ -46,14 +46,14 @@ const TransactionsList = () => {
 
             <section className="bg-white w-full rounded-md shadow-md">
                 <h3 className="text-xl pl-3 pt-3 font-semibold mb-3">Recent Transaction</h3>
-                <div className="w-full min-h-96 text-gray-600">
+                <div className="w-full h-96 text-gray-600 overflow-y-auto">
                     <ul className="px-3">
 
                         {
-                            transactions.map((transaction) => (
-                                <li className="mb-3" key={transaction.id} >
-
-                                    <p className="text-xl border-b border-gray-400 pb-3">{transaction.category} {"->"} {transaction.type == "income" ? "+" : "-"} ${transaction.amount} </p>
+                            [...transactions].reverse().slice(0,10).map((transaction) => (
+                                <li className="mb-3 border-b pb-1 flex items-center justify-between" key={transaction.id} >
+                                    <p>{transaction.category}</p>
+                                <p className={`text-right ${transaction.type === "income" ? "text-green-600" : "text-red-800"} `}>  {transaction.type === "income" ? "+" : "-"}{transaction.amount}</p>
 
                                 </li>
                             ))
